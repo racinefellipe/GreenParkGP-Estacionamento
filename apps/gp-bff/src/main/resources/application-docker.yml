@@ -1,0 +1,11 @@
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+server:
+  port: 8081
+
+gp:
+  core:
+    base-url: ${CORE_BASE_URL:http://gp-api-core:8080}
