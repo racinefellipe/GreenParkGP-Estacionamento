@@ -1,0 +1,37 @@
+services:
+  oracle:
+    image: gvenzl/oracle-free:23.26.3-slim
+    restart: unless-stopped
+
+    ports:
+      - "127.0.0.1:${ORACLE_PORT:-1521}:1521"
+
+    environment:
+      ORACLE_PASSWORD: "${ORACLE_SYS_PASSWORD}"
+      GP_APP_USER: "${ORACLE_USER}"
+      GP_APP_PASSWORD: "${ORACLE_PASSWORD}"
+      GP_APP_PDB: "${ORACLE_SERVICE:-FREEPDB1}"
+
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./infra/oracle/init:/container-entrypoint-initdb.d:ro
+
+    networks:
+      - gp-network
+
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 5m
+
+    shm_size: "1gb"
+
+volumes:
+  oracle-data:
+    driver: local
+
+networks:
+  gp-network:
+    driver: bridge

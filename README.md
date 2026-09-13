@@ -65,10 +65,11 @@ cd apps/gp-api-core && mvn -q -DskipTests package
 cd ../gp-bff && mvn -q -DskipTests package
 cd ../gp-web && npm run build
 ```
+## Subir somente o Oracle
 
-## Próximos passos
+```bash
+cp .env.example .env
+docker compose up -d oracle
+docker compose ps
+```
 
-- **F1.2** — Docker Compose com Oracle + healthcheck
-- **F1.3** — Dockerfiles multi-serviço (web/nginx, bff, core)
-
-Documentação de planejamento em `.cursor/plans/`. Entregáveis formais em `docs/` serão consolidados nas fases seguintes.
